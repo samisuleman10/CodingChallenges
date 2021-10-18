@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 
+using System.Linq;
+
 namespace CodingChallengeDemo
 {
     class Program
@@ -11,8 +13,12 @@ namespace CodingChallengeDemo
         static void Main(string[] args)
         {
             Console.WriteLine();
-            FactorialPrint();
+            StockBuyAndSellProfit();
+            //NumberIsPrime();
+            //FindSecondLargestInArray();
+            //FactorialPrint();
             //FibonacciPrint();
+            //TwoNumbersAddToTargetNumberAndReturnsIndexShifa();
             //TwoNumbersAddToTargetNumberAndReturnsIndex();
             //StringContainsSequenceOfCharacters();
             //VowelsAndConsonantCounter();
@@ -37,9 +43,91 @@ namespace CodingChallengeDemo
             //FindClosestNumberToZero();
         }
 
+        static void StockBuyAndSellProfit()
+        {
+            //int[] prices = {7, 1, 5, 3, 6, 4}; // 5
+            int[] prices = { 7, 6, 4, 3, 1 }; // 0
+
+            int minValue = prices.Min();
+            int minIndex = Array.IndexOf(prices, minValue);
+
+            //int maxValue = prices.Max();
+            //int maxIndex = Array.IndexOf(prices, maxValue);
+            //int maxIndex = prices.ToList().IndexOf(maxValue);
+            int profit = 0;
+            int maxProfit = 0;
+
+            for (int i = minIndex; i < prices.Length; i++)
+            {
+                
+                profit = prices[i] - minValue;
+
+                if (maxProfit < profit) maxProfit = profit;
+            }
+            Console.Write("Profit  " + maxProfit);
+
+        }
+
+        static void NumberIsPrime()
+        {
+            int number = 1;
+            bool IsPrime = true;
+            if(number < 2) IsPrime = false;
+
+            //Numbers start repeating 
+            for (int i = 2; i < Math.Sqrt(number); i++)
+            {
+                if (number % i == 0)
+                {
+                    IsPrime = false;
+                    break;
+                }
+            }
+            if (IsPrime)
+            {
+                Console.Write("Number is Prime.");
+            }
+            else
+            {
+                Console.Write("Number is not Prime.");
+            }
+
+        }
         static void FindSecondLargestInArray()
         {
-        
+            int[] array = {1,45,4563,345,321,2,3};
+            int length = array.Length;
+            
+            int i, first, second;
+            //There should be atleast two elements in the array
+            if (length < 2)
+            {
+                Console.WriteLine(" Invalid Input ");
+                return;
+            }
+
+            // Starting point for largest and second largest values
+            first = second = int.MinValue;
+
+            //Go through the array and update the largest and second largest number
+            for (i = 0; i < length; i++)
+            {
+                if (array[i] > first)
+                {
+                    second = first;
+                    first = array[i];
+                }
+            }
+
+            if (second == int.MinValue)
+            {
+                Console.Write("There is no second largest element");
+            }
+            else
+            {
+                Console.Write("Second largest number is "+ second);
+            }
+
         }
 
 
@@ -59,6 +147,7 @@ namespace CodingChallengeDemo
 
         static void FibonacciPrint()
         {
+            
             int fibonacciLength = 5;
             // for printing series we loop through
             for (int i = 0; i < fibonacciLength; i++)
@@ -72,6 +161,31 @@ namespace CodingChallengeDemo
             if (n == 0 || n == 1) return n; // this is the base condition
             return FibonacciRecursionPrint(n-1) + FibonacciRecursionPrint(n-2);        
         }
+
+        private static void TwoNumbersAddToTargetNumberAndReturnsIndexShifa()
+        {
+            int[] nums = { 2, 7, 11, 15 };
+            int target = 9;
+            int[] answer = { -1, -1 };
+
+            for (int i = 0; i < nums.Length; i++)
+            {
+                int difference = target - nums[i];
+
+                // Working with Key becuse we are able to acces index.
+                int index = Array.IndexOf(nums, difference);
+                
+                if(index!=-1)
+                {
+                    answer = new int[] { index, i };
+                    break;
+                }
+ 
+            }
+
+            Array.ForEach(answer, Console.WriteLine);
+        }
+
         private static void TwoNumbersAddToTargetNumberAndReturnsIndex()
         {
             int[] nums = { 1, 3, 4, 5 };

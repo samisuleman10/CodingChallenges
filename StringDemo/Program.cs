@@ -13,7 +13,10 @@ namespace CodingChallengeDemo
         static void Main(string[] args)
         {
             Console.WriteLine();
-            StockBuyAndSellProfit();
+            BinarySearch();
+            //FindMinimumElement();
+            //ContainsDuplicate();
+            //StockBuyAndSellProfit();
             //NumberIsPrime();
             //FindSecondLargestInArray();
             //FactorialPrint();
@@ -22,6 +25,7 @@ namespace CodingChallengeDemo
             //TwoNumbersAddToTargetNumberAndReturnsIndex();
             //StringContainsSequenceOfCharacters();
             //VowelsAndConsonantCounter();
+            //PalindromeOccurencesString();
             //StringIsAPalindrome();
             //PlainDromeWordRecursive();
             //StringConversion();
@@ -43,26 +47,97 @@ namespace CodingChallengeDemo
             //FindClosestNumberToZero();
         }
 
+        static void BinarySearch()
+        {
+            int[] arr = { -18, -12, -4, 0, 2, 3, 4, 15, 16, 18, 22, 45, 89 };
+            int target = 22;
+
+            int start = 0;
+            int end = arr.Length - 1;
+
+            while (start <= end)
+            {
+                // find the middle element
+                // int mid = (start + end) / 2; // might be possible that (start + end) exceeds the range of int in java
+                int mid = start + (end - start) / 2; // (end - start) will give the new length
+                                                     // (/2) Now divide that length by half and
+                                                     // add it into start to get mid 
+                if (target < arr[mid])
+                {
+                    end = mid - 1;
+                }
+                else if (target > arr[mid])
+                {
+                    start = mid + 1;
+                }
+                else
+                {
+                    Console.WriteLine("Found at index " + mid);
+                    return;
+                }
+            }
+
+            Console.WriteLine("Target nit found");
+
+        }
+
+        static void FindMinimumElement()
+        {
+            int[] arr = { 5, 1, 2, 3, 4};
+            int len = arr.Length;
+            int left = 0;
+            int right = len - 1;
+
+            while (left <= right)
+            {
+                if (arr[left] <= arr[right])
+                {  // Case 1: sorted array
+                    Console.WriteLine(left);
+                    return;
+                }
+                int mid = left + (right - left) / 2; // right way to find the moving mid/ changing boundary 
+ 
+                if (mid > 0 && arr[mid] < arr[mid - 1])
+                {
+                    Console.WriteLine(arr[mid]);
+                    return;
+                }
+                else if (arr[left] <= arr[mid] && arr[right] < arr[right]) // adjust the boundaries as it is not sorted on the right side
+                {
+                    left = mid + 1;
+                }
+                else
+                {
+                    right = mid - 1;
+                }
+                Console.WriteLine(arr[left]);
+            }
+            
+        }
+
+        static void ContainsDuplicate()
+        {
+            int []nums = { 1, 2, 3, 1 }; // true
+            //int[] nums = { 1, 2, 3}; // false
+            int[] distinct = nums.Distinct().ToArray();
+
+            if (nums.Length == distinct.Length) Console.WriteLine("False");
+            else Console.WriteLine("True");
+        }
+        
         static void StockBuyAndSellProfit()
         {
-            //int[] prices = {7, 1, 5, 3, 6, 4}; // 5
-            int[] prices = { 7, 6, 4, 3, 1 }; // 0
+            int[] prices = {7, 1, 5, 3, 6, 4}; // 5
+            //int[] prices = { 7, 6, 4, 3, 1 }; // 0
 
             int minValue = prices.Min();
             int minIndex = Array.IndexOf(prices, minValue);
 
-            //int maxValue = prices.Max();
-            //int maxIndex = Array.IndexOf(prices, maxValue);
-            //int maxIndex = prices.ToList().IndexOf(maxValue);
-            int profit = 0;
             int maxProfit = 0;
 
             for (int i = minIndex; i < prices.Length; i++)
             {
-                
-                profit = prices[i] - minValue;
-
-                if (maxProfit < profit) maxProfit = profit;
+                if (maxProfit < prices[i] - minValue) maxProfit = prices[i] - minValue;
             }
             Console.Write("Profit  " + maxProfit);
 
@@ -162,7 +237,7 @@ namespace CodingChallengeDemo
             return FibonacciRecursionPrint(n-1) + FibonacciRecursionPrint(n-2);        
         }
 
-        private static void TwoNumbersAddToTargetNumberAndReturnsIndexShifa()
+        static void TwoNumbersAddToTargetNumberAndReturnsIndexShifa()
         {
             int[] nums = { 2, 7, 11, 15 };
             int target = 9;
@@ -220,6 +295,14 @@ namespace CodingChallengeDemo
 
             Console.WriteLine(randomString.Contains(target));
             Console.WriteLine(randomString[randomString.IndexOf(target)-1]);
+        }
+
+        // barbarabar has 7 (b, a, r, barab, a, r)
+        private static void PalindromeOccurencesString()
+        {
+            string textPalindrome = "barbarabar";
+            
+            string answer = new string (textPalindrome.Distinct().ToArray());
         }
 
         private static void StringIsAPalindrome()

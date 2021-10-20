@@ -17,8 +17,8 @@ namespace CodingChallengeDemo
             //FindMinimumElement();
             //FindMaxElement();
             //nextGreatestLetter();
-            SearchFirstAndLastIndex();
-
+            //SearchFirstAndLastIndex();
+            InfiniteArraySearch();
             //ContainsDuplicate();
             //StockBuyAndSellProfit();
             //NumberIsPrime();
@@ -238,6 +238,50 @@ namespace CodingChallengeDemo
             }
             return answer;
         }
+
+        static void InfiniteArraySearch()
+        {
+            // suppose arr is infinite. We will process it in chunks
+            int[] arr = { -18, -12, -4, 0, 2, 3, 4, 15, 16, 18, 22, 45, 89, 90 };
+            int target = 89;
+
+            int start = 0;
+            int end = 1;
+
+            // doubling the window size and increasing the chunk
+            while (target > arr[end])
+            {
+                int temp = end + 1;
+                // double the chunk size value and adding one because index starts with zero. for length add 1
+                end = end + (end - start + 1) * 2;
+                start = temp;
+            }
+
+            while (start <= end)
+            {
+                // find the middle element
+                // int mid = (start + end) / 2; // might be possible that (start + end) exceeds the range of int in java
+                int mid = start + (end - start) / 2; // (end - start) will give the new length
+                                                     // (/2) Now divide that length by half and
+                                                     // add it into start to get mid 
+                                                     // here we are finding the index so no -1
+                if (target < arr[mid])
+                {
+                    end = mid - 1;
+                }
+                else if (target > arr[mid])
+                {
+                    start = mid + 1;
+                }
+                else
+                {
+                    Console.WriteLine("Found at index " + mid);
+                    return;
+                }
+            }
+
+            Console.WriteLine("Not found index -1");
+        }
         static void ContainsDuplicate()
         {
             int []nums = { 1, 2, 3, 1 }; // true
@@ -263,7 +307,6 @@ namespace CodingChallengeDemo
                 if (maxProfit < prices[i] - minValue) maxProfit = prices[i] - minValue;
             }
             Console.Write("Profit  " + maxProfit);
-
         }
 
         static void NumberIsPrime()

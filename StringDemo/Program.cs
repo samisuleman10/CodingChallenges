@@ -13,8 +13,12 @@ namespace CodingChallengeDemo
         static void Main(string[] args)
         {
             Console.WriteLine();
-            BinarySearch();
+            //BinarySearch();
             //FindMinimumElement();
+            //FindMaxElement();
+            //nextGreatestLetter();
+            SearchFirstAndLastIndex();
+
             //ContainsDuplicate();
             //StockBuyAndSellProfit();
             //NumberIsPrime();
@@ -77,44 +81,163 @@ namespace CodingChallengeDemo
                 }
             }
 
-            Console.WriteLine("Target nit found");
+            Console.WriteLine("Target not found");
 
         }
 
+        // Floor
         static void FindMinimumElement()
         {
-            int[] arr = { 5, 1, 2, 3, 4};
-            int len = arr.Length;
-            int left = 0;
-            int right = len - 1;
+            int[] arr = { -18, -12, -4, 0, 2, 3, 4, 15, 16, 18, 22, 45, 89 };
+            int target = -19;
 
-            while (left <= right)
+            int start = 0;
+            int end = arr.Length - 1;
+
+            while (start <= end)
             {
-                if (arr[left] <= arr[right])
-                {  // Case 1: sorted array
-                    Console.WriteLine(left);
-                    return;
-                }
-                int mid = left + (right - left) / 2; // right way to find the moving mid/ changing boundary 
- 
-                if (mid > 0 && arr[mid] < arr[mid - 1])
+                // find the middle element
+                // int mid = (start + end) / 2; // might be possible that (start + end) exceeds the range of int in java
+                int mid = start + (end - start) / 2; // (end - start) will give the new length
+                                                     // (/2) Now divide that length by half and
+                                                     // add it into start to get mid 
+                if (target < arr[mid])
                 {
-                    Console.WriteLine(arr[mid]);
-                    return;
+                    end = mid - 1;
                 }
-                else if (arr[left] <= arr[mid] && arr[right] < arr[right]) // adjust the boundaries as it is not sorted on the right side
+                else if (target > arr[mid])
                 {
-                    left = mid + 1;
+                    start = mid + 1;
                 }
                 else
                 {
-                    right = mid - 1;
+                    Console.WriteLine("Found at index " + mid);
+                    return;
                 }
-                Console.WriteLine(arr[left]);
             }
-            
+
+            Console.WriteLine("Target found "+ end);
+
         }
 
+        //Ceiling
+        static void FindMaxElement()
+        {
+            int[] arr = { -18, -12, -4, 0, 2, 3, 4, 15, 16, 18, 22, 45, 89 };
+            int target = 90;
+
+            int start = 0;
+            int end = arr.Length - 1;
+
+            if (target > arr[arr.Length - 1])
+            {
+                Console.WriteLine("Not Found " + -1);
+                return;
+            }
+
+            while (start <= end)
+            {
+                // find the middle element
+                // int mid = (start + end) / 2; // might be possible that (start + end) exceeds the range of int in java
+                int mid = start + (end - start) / 2; // (end - start) will give the new length
+                                                     // (/2) Now divide that length by half and
+                                                     // add it into start to get mid 
+                if (target < arr[mid])
+                {
+                    end = mid - 1;
+                }
+                else if (target > arr[mid])
+                {
+                    start = mid + 1;
+                }
+                else
+                {
+                    Console.WriteLine("Found at index " + mid);
+                    return;
+                }
+            }
+
+            Console.WriteLine("Target found " + start);
+        }
+
+        // ceiling
+        static void nextGreatestLetter()
+        {
+            char[] arr = { 'a', 'v', 'z'};
+            char target = 'z';
+
+            int start = 0;
+            int end = arr.Length - 1;
+
+            while (start <= end)
+            {
+                // find the middle element
+                // int mid = (start + end) / 2; // might be possible that (start + end) exceeds the range of int in java
+                int mid = start + (end - start) / 2; // (end - start) will give the new length
+                                                     // (/2) Now divide that length by half and
+                                                     // add it into start to get mid 
+                if (target < arr[mid])
+                {
+                    end = mid - 1;
+                }
+                else
+                {
+                    start = mid + 1;
+                } 
+            }
+            Console.WriteLine("Target found " + arr[start % arr.Length]); // when condtion fails wrap around.
+                                                                          // modulus will only work when start = arr.length
+        }
+
+        static void SearchFirstAndLastIndex()
+        {
+            // Search for the lower half and then search for the upper half
+            int[] answer = {-1, -1};
+
+            int[] nums = {5,7,7,8,8,10};
+            int target = 7;
+
+            answer[0] = BinarySearchFirstLast(nums, target, true);
+            answer[1] = BinarySearchFirstLast(nums, target, false);
+
+            Array.ForEach(answer, Console.WriteLine);
+        }
+
+        static int BinarySearchFirstLast(int[] nums, int target, bool isFirst)
+        {
+            int answer = -1;
+
+            int start = 0;
+            int end = nums.Length - 1;
+
+            while (start <= end)
+            {
+                int mid = start + (end - start) / 2;
+
+                if (target < nums[mid])
+                {
+                    end = mid - 1;
+                }
+                else if (target > nums[mid])
+                {
+                    start = mid + 1;
+                }
+                else
+                {
+                    // This is our possible answer
+                    answer = mid;
+                    if (isFirst)
+                    {
+                        end = mid - 1;
+                    }
+                    else
+                    {
+                        start = mid + 1;
+                    }
+                }
+            }
+            return answer;
+        }
         static void ContainsDuplicate()
         {
             int []nums = { 1, 2, 3, 1 }; // true

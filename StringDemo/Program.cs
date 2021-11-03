@@ -13,7 +13,7 @@ namespace CodingChallengeDemo
         static void Main(string[] args)
         {
             Console.WriteLine();
-            //BinarySearch();
+            BinarySearch();
             //FindMinimumElement();
             //FindMaxElement();
             //nextGreatestLetter();
